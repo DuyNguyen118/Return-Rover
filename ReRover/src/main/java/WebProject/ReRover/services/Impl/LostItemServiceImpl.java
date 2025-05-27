@@ -1,28 +1,31 @@
-// package WebProject.ReRover.services.Impl;
+package WebProject.ReRover.services.Impl;
 
-// import WebProject.ReRover.model.LostItem;
-// import WebProject.ReRover.repository.LostItemRepository;
-// import WebProject.ReRover.services.LostItemService;
+import WebProject.ReRover.model.LostItem;
+import WebProject.ReRover.repository.LostItemRepository;
+import WebProject.ReRover.services.LostItemService;
 
-// public class LostItemServiceImpl implements LostItemService {
-//     private LostItemRepository lostItemRepository;
+import org.springframework.stereotype.Service;
 
-//     public LostItemServiceImpl(LostItemRepository lostItemRepository) {
-//         this.lostItemRepository = lostItemRepository;
-//     }
+@Service
+public class LostItemServiceImpl implements LostItemService {
+    private LostItemRepository lostItemRepository;
 
-//     @Override
-//     public LostItem getLostItemById(Integer id) {
-//         return lostItemRepository.findById((Integer) id).orElse(null);
-//     }
+    public LostItemServiceImpl(LostItemRepository lostItemRepository) {
+        this.lostItemRepository = lostItemRepository;
+    }
 
-//     @Override
-//     public LostItem saveLostItem(LostItem lostItem) {
-//         return lostItemRepository.save(lostItem);
-//     }
+    @Override
+    public LostItem getLostItemById(int id) {
+        return lostItemRepository.findById((long) id).orElse(null);
+    }
 
-//     @Override
-//     public void deleteLostItem(Integer id) {
-//         lostItemRepository.deleteById((Integer) id);
-//     }
-// }
+    @Override
+    public LostItem saveLostItem(LostItem lostItem) {
+        return lostItemRepository.save(lostItem);
+    }
+
+    @Override
+    public void deleteLostItem(int id) {
+        lostItemRepository.deleteById((long) id);
+    }
+}
