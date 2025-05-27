@@ -4,6 +4,9 @@ import WebProject.ReRover.model.User;
 import WebProject.ReRover.repository.UserRepository;
 import WebProject.ReRover.services.UserService;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
