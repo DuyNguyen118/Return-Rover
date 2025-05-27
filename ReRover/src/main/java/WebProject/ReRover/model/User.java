@@ -1,141 +1,88 @@
 package WebProject.ReRover.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "user_id")
+    private Long id;
+    
+    @NotBlank
+    @Size(max = 20)
+    @Column(name = "student_id", unique = true, nullable = false)
+    private String studentId;
+    
+    @NotBlank
+    @Size(max = 100)
+    @Column(nullable = false)
     private String fullname;
-    private String password;
-    private String role;
+    
+    @NotBlank
+    @Size(max = 100)
+    @Email
+    @Column(unique = true, nullable = false)
     private String gmail;
+    
+    @Size(max = 20)
+    @Column(name = "phone_number")
     private String phoneNumber;
-    private String address;
+    
+    @Column(columnDefinition = "JSON")
     private String socials;
+    
+    @Column(name = "profile_picture", length = 255)
     private String profilePicture;
-    private int meritPoint;
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public void setGmail(String gmail) {
-        this.gmail = gmail;
-    }
-
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-
-    public void setSocials(String socials) {
-        this.socials = socials;
-    }
-
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
-
-    public void setMeritPoint(int meritPoint) {
-        this.meritPoint = meritPoint;
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-
-    public String getFullname() {
-        return fullname;
-    }
-
-
-    public String getPassword() {
-        return password;
-    }
-
-
-    public String getRole() {
-        return role;
-    }
-
-
-    public String getGmail() {
-        return gmail;
-    }
-
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-
-    public String getAddress() {
-        return address;
-    }
-
-
-    public String getSocials() {
-        return socials;
-    }
-
-
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-
-    public int getMeritPoint() {
-        return meritPoint;
-    }
-
-
-    public User() {
-    }
-
     
-    public User(int id, String fullname, String password, String role, String gmail, String phoneNumber,
-            String address, String socials, String profilePicture, int meritPoint) {
-        this.id = id;
-        this.fullname = fullname;
-        this.password = password;
-        this.role = role;
-        this.gmail = gmail;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.socials = socials;
-        this.profilePicture = profilePicture;
-        this.meritPoint = meritPoint;
-    }
-
+    @Column(name = "merit_point")
+    private Integer meritPoint = 0;
     
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<LostItem> lostItems = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<FoundItem> foundItems = new ArrayList<>();
+    
+    // Helper methods for bidirectional relationships
+    public void addLostItem(LostItem item) {
+        lostItems.add(item);
+        item.setUser(this);
+    }
+    
+    public void removeLostItem(LostItem item) {
+        lostItems.remove(item);
+        item.setUser(null);
+    }
+    
+    public void addFoundItem(FoundItem item) {
+        foundItems.add(item);
+        item.setUser(this);
+    }
+    
+    public void removeFoundItem(FoundItem item) {
+        foundItems.remove(item);
+        item.setUser(null);
+    }
 }
