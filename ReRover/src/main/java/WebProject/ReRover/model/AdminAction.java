@@ -1,6 +1,7 @@
 package WebProject.ReRover.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,12 +18,14 @@ public class AdminAction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "action_id")
-    private Integer actionId;
+    private Integer id;
     
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id", nullable = false)
     private Admin admin;
     
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "match_id", nullable = false)
     private ItemMatch match;
@@ -33,7 +36,7 @@ public class AdminAction {
     @Column(columnDefinition = "TEXT")
     private String notes;
     
-    @Column(name = "action_date")
+    @Column(name = "action_date", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime actionDate;
     
     // Helper methods for bidirectional relationships
