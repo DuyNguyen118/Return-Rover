@@ -1,13 +1,11 @@
 package WebProject.ReRover.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,7 +20,10 @@ public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admin_id")
-    private Long id;
+    private Integer id;
+
+    @Column(name = "student_id", unique = true)
+    private String studentId;
     
     @NotBlank
     @Size(max = 100)
@@ -40,18 +41,14 @@ public class Admin {
     @Column(nullable = false)
     private String password;
     
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<AdminAction> adminActions = new ArrayList<>();
+    @OneToMany(mappedBy = "admin")
+    private List<AdminAction> adminActions;
     
-    // Helper methods for bidirectional relationship
-    public void addAdminAction(AdminAction action) {
-        adminActions.add(action);
-        action.setAdmin(this);
+    public String getStudentId() {
+        return studentId;
     }
     
-    public void removeAdminAction(AdminAction action) {
-        adminActions.remove(action);
-        action.setAdmin(null);
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 }
