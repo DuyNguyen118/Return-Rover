@@ -1,4 +1,90 @@
-CREATE TABLE SPRING_SESSION (
+-- --------------------------------------------------------
+-- Database: ReRover
+-- Purpose: Lost and Found System
+-- --------------------------------------------------------
+
+DROP DATABASE IF EXISTS ReRover;
+CREATE DATABASE ReRover /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE ReRover;
+
+-- Creating structure for table ReRover.users
+CREATE TABLE IF NOT EXISTS users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    student_id VARCHAR(20) UNIQUE NOT NULL,
+    fullname VARCHAR(100) NOT NULL,
+    gmail VARCHAR(100) UNIQUE NOT NULL,
+    phone_number VARCHAR(20),
+    socials JSON,
+    profile_picture VARCHAR(255),
+    password VARCHAR(255) NOT NULL,
+    merit_point INT DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Creating structure for table ReRover.admins
+CREATE TABLE IF NOT EXISTS admins (
+    admin_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    student_id VARCHAR(20) UNIQUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Creating structure for table ReRover.lost_items
+CREATE TABLE IF NOT EXISTS lost_items (
+    lost_item_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    description TEXT,
+    location VARCHAR(100),
+    lost_date DATE,
+    image_url VARCHAR(255),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Creating structure for table ReRover.found_items
+CREATE TABLE IF NOT EXISTS found_items (
+    found_item_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    description TEXT,
+    location VARCHAR(100),
+    found_date DATE,
+    image_url VARCHAR(255),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Creating structure for table ReRover.item_matches
+CREATE TABLE IF NOT EXISTS item_matches (
+    match_id INT PRIMARY KEY AUTO_INCREMENT,
+    lost_item_id INT NOT NULL,
+    found_item_id INT NOT NULL,
+    matched_by_user INT,
+    lost_item_user_confirmed BOOLEAN DEFAULT FALSE,
+    found_item_user_confirmed BOOLEAN DEFAULT FALSE,
+    admin_approved BOOLEAN DEFAULT FALSE,
+    status VARCHAR(50) DEFAULT 'pending',
+    match_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (lost_item_id) REFERENCES lost_items(lost_item_id) ON DELETE CASCADE,
+    FOREIGN KEY (found_item_id) REFERENCES found_items(found_item_id) ON DELETE CASCADE,
+    FOREIGN KEY (matched_by_user) REFERENCES users(user_id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Creating structure for table ReRover.admin_actions
+CREATE TABLE IF NOT EXISTS admin_actions (
+    action_id INT PRIMARY KEY AUTO_INCREMENT,
+    admin_id INT NOT NULL,
+    match_id INT NOT NULL,
+    action_type VARCHAR(50),
+    notes TEXT,
+    action_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (admin_id) REFERENCES admins(admin_id),
+    FOREIGN KEY (match_id) REFERENCES item_matches(match_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS SPRING_SESSION (
   PRIMARY_ID CHAR(36) NOT NULL,
   SESSION_ID CHAR(36) NOT NULL,
   CREATION_TIME BIGINT NOT NULL,
@@ -7,97 +93,17 @@ CREATE TABLE SPRING_SESSION (
   EXPIRY_TIME BIGINT NOT NULL,
   PRINCIPAL_NAME VARCHAR(100),
   CONSTRAINT SPRING_SESSION_PK PRIMARY KEY (PRIMARY_ID)
-) ENGINE=InnoDB;
+);
 
 CREATE UNIQUE INDEX SPRING_SESSION_IX1 ON SPRING_SESSION (SESSION_ID);
 CREATE INDEX SPRING_SESSION_IX2 ON SPRING_SESSION (EXPIRY_TIME);
 CREATE INDEX SPRING_SESSION_IX3 ON SPRING_SESSION (PRINCIPAL_NAME);
 
-CREATE TABLE SPRING_SESSION_ATTRIBUTES (
+CREATE TABLE IF NOT EXISTS SPRING_SESSION_ATTRIBUTES (
   SESSION_PRIMARY_ID CHAR(36) NOT NULL,
   ATTRIBUTE_NAME VARCHAR(200) NOT NULL,
   ATTRIBUTE_BYTES BLOB NOT NULL,
   CONSTRAINT SPRING_SESSION_ATTRIBUTES_PK PRIMARY KEY (SESSION_PRIMARY_ID, ATTRIBUTE_NAME),
-  CONSTRAINT SPRING_SESSION_ATTRIBUTES_FK FOREIGN KEY (SESSION_PRIMARY_ID) REFERENCES SPRING_SESSION(PRIMARY_ID) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS item_matches;
-DROP TABLE IF EXISTS lost_items;
-DROP TABLE IF EXISTS found_items;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS admins;
-
--- 1. USERS TABLE
-CREATE TABLE users (
-    user_id INT PRIMARY KEY AUTO_INCREMENT,
-    student_id VARCHAR(20) UNIQUE NOT NULL,
-    fullname VARCHAR(100) NOT NULL,
-    gmail VARCHAR(100) UNIQUE NOT NULL,
-    phone_number VARCHAR(20),
-    socials JSON,
-    profile_picture VARCHAR(255), -- store image URL
-    merit_point INT DEFAULT 0,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
--- 2. ADMINS TABLE
-CREATE TABLE admins (
-    admin_id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
-);
-
--- 3. LOST ITEMS TABLE
-CREATE TABLE lost_items (
-    lost_item_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    title VARCHAR(150) NOT NULL,
-    description TEXT,
-    location VARCHAR(100),
-    lost_date DATE,
-    image_url VARCHAR(255), -- store image path
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
--- 4. FOUND ITEMS TABLE
-CREATE TABLE found_items (
-    found_item_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    title VARCHAR(150) NOT NULL,
-    description TEXT,
-    location VARCHAR(100),
-    found_date DATE,
-    image_url VARCHAR(255), -- store image path
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
--- 5. ITEM MATCHES TABLE
-CREATE TABLE item_matches (
-    match_id INT PRIMARY KEY AUTO_INCREMENT,
-    lost_item_id INT NOT NULL,
-    found_item_id INT NOT NULL,
-    matched_by_user INT, -- user who linked the posts
-    lost_item_user_confirmed BOOLEAN DEFAULT FALSE,
-    found_item_user_confirmed BOOLEAN DEFAULT FALSE,
-    admin_approved BOOLEAN DEFAULT FALSE,
-    status VARCHAR(50) DEFAULT 'pending', -- e.g., pending, confirmed, rejected
-    match_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (lost_item_id) REFERENCES lost_items(lost_item_id) ON DELETE CASCADE,
-    FOREIGN KEY (found_item_id) REFERENCES found_items(found_item_id) ON DELETE CASCADE,
-    FOREIGN KEY (matched_by_user) REFERENCES users(user_id) ON DELETE SET NULL
-);
-
--- 6. ADMIN ACTIONS TABLE (Audit Trail)
-CREATE TABLE admin_actions (
-    action_id INT PRIMARY KEY AUTO_INCREMENT,
-    admin_id INT NOT NULL,
-    match_id INT NOT NULL,
-    action_type VARCHAR(50), -- e.g., approve, reject, comment
-    notes TEXT,
-    action_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (admin_id) REFERENCES admins(admin_id),
-    FOREIGN KEY (match_id) REFERENCES item_matches(match_id)
+  CONSTRAINT SPRING_SESSION_ATTRIBUTES_FK FOREIGN KEY (SESSION_PRIMARY_ID) 
+    REFERENCES SPRING_SESSION(PRIMARY_ID) ON DELETE CASCADE
 );
