@@ -9,7 +9,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import WebProject.ReRover.model.enums.ItemStatus;
+import java.util.List;
 
 @Entity
 @Table(name = "lost_items")
@@ -18,27 +18,12 @@ import WebProject.ReRover.model.enums.ItemStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LostItem extends BaseEntity {
-
-    @NotBlank
-    @Size(max = 150)
-    @Column(nullable = false)
-    private String title;
-
-    @Column(columnDefinition = "TEXT")
-    private String description;
-
-    @Size(max = 100)
-    private String location;
-
-    @Column(name = "lost_date")
-    private LocalDate lostDate;
+public class LostItem {
     
-    @Column(name = "image_url", length = 255)
-    private String imageUrl;
-    
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "lost_item_id")
+    private Integer id;
     
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -46,29 +31,27 @@ public class LostItem extends BaseEntity {
     @JsonIgnore
     private User user;
     
-    @Enumerated(EnumType.STRING)
-    private ItemStatus status = ItemStatus.LOST;
-
-    @OneToOne(mappedBy = "lostItem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotBlank
+    @Size(max = 150)
+    @Column(nullable = false)
+    private String title;
+    
+    @Column(columnDefinition = "TEXT")
+    private String description;
+    
+    @Size(max = 100)
+    private String location;
+    
+    @Column(name = "lost_date")
+    private LocalDate lostDate;
+    
+    @Column(name = "image_url", length = 255)
+    private String imageUrl;
+    
+    @Column(name = "created_at", updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime createdAt;
+    
+    @OneToMany(mappedBy = "lostItem")
     @JsonIgnore
-    private ItemMatch itemMatch;
-    
-    // Helper methods for bidirectional relationship
-    public void setUser(User user) {
-        this.user = user;
-        if (user != null && !user.getLostItems().contains(this)) {
-            user.getLostItems().add(this);
-        }
-    }
-    
-    public void setItemMatch(ItemMatch itemMatch) {
-        if (itemMatch == null) {
-            if (this.itemMatch != null) {
-                this.itemMatch.setLostItem(null);
-            }
-        } else {
-            itemMatch.setLostItem(this);
-        }
-        this.itemMatch = itemMatch;
-    }
+    private List<ItemMatch> itemMatches;
 }

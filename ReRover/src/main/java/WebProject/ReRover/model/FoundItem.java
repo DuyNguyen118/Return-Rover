@@ -9,7 +9,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import WebProject.ReRover.model.enums.ItemStatus;
+import java.util.List;
 
 @Entity
 @Table(name = "found_items")
@@ -18,7 +18,18 @@ import WebProject.ReRover.model.enums.ItemStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FoundItem extends BaseEntity {
+public class FoundItem {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "found_item_id")
+    private Integer id;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
 
     @NotBlank
     @Size(max = 150)
@@ -33,42 +44,22 @@ public class FoundItem extends BaseEntity {
 
     @Column(name = "found_date")
     private LocalDate foundDate;
-    
+
     @Column(name = "image_url", length = 255)
     private String imageUrl;
-    
-    @Column(name = "created_at", updatable = false)
+
+    @Column(name = "created_at", updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
-    
-    @Enumerated(EnumType.STRING)
-    private ItemStatus status = ItemStatus.FOUND;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToMany(mappedBy = "foundItem")
     @JsonIgnore
-    private User user;
+    private List<ItemMatch> itemMatches;
 
-    @OneToOne(mappedBy = "foundItem", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private ItemMatch itemMatch;
-    
     // Helper methods for bidirectional relationship
     public void setUser(User user) {
         this.user = user;
         if (user != null && !user.getFoundItems().contains(this)) {
             user.getFoundItems().add(this);
         }
-    }
-    
-    public void setItemMatch(ItemMatch itemMatch) {
-        if (itemMatch == null) {
-            if (this.itemMatch != null) {
-                this.itemMatch.setFoundItem(null);
-            }
-        } else {
-            itemMatch.setFoundItem(this);
-        }
-        this.itemMatch = itemMatch;
     }
 }
