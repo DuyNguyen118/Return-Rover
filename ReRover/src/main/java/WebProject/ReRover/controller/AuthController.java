@@ -4,10 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,11 +21,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import WebProject.ReRover.security.JwtTokenProvider;
 
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Slf4j
 @RestController
@@ -36,18 +32,14 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
-    private final UserDetailsService userDetailsService;
     private final ObjectMapper objectMapper;
 
     public AuthController(AuthenticationManager authenticationManager, 
                          JwtTokenProvider tokenProvider,
-                         UserDetailsService userDetailsService) {
+                         ObjectMapper objectMapper) {
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
-        this.userDetailsService = userDetailsService;
-        this.objectMapper = new ObjectMapper()
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        this.objectMapper = objectMapper;
     }
 
     @PostMapping("/login")
