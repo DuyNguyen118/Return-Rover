@@ -23,13 +23,18 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long id;
+    private Integer id;
     
     @NotBlank
     @Size(max = 20)
     @Column(name = "student_id", unique = true, nullable = false)
     private String studentId;
-    
+
+    @NotBlank
+    @Size(max = 255)
+    @Column(nullable = false)
+    private String password;
+
     @NotBlank
     @Size(max = 100)
     @Column(nullable = false)
@@ -54,7 +59,7 @@ public class User {
     @Column(name = "merit_point")
     private Integer meritPoint = 0;
     
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at", updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -64,6 +69,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<FoundItem> foundItems = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "matchedByUser")
+    @JsonIgnore
+    private List<ItemMatch> matchedItems;
     
     // Helper methods for bidirectional relationships
     public void addLostItem(LostItem item) {
