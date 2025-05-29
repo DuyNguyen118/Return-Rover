@@ -31,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 });
         
         log.info("User found: {}", user.getStudentId());
-        log.debug("User details - ID: {}, Email: {}", user.getId(), user.getGmail());
+        log.debug("User details - ID: {}, Email: {}", user.getId(), user.getEmail());
 
         return org.springframework.security.core.userdetails.User
             .withUsername(user.getStudentId())
