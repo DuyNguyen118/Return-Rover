@@ -1,10 +1,10 @@
 -- Sample data for users table 
-INSERT INTO users (student_id, fullname, gmail, phone_number, socials, profile_picture, password, merit_point, created_at) VALUES
-('SE12345', 'John Doe', 'john.doe@example.com', '0912345678', '{"facebook": "john.doe", "twitter": "johndoe"}', 'profile1.jpg', '$2a$12$ze8FwxJ3hgE8F.NVVi3FCuM8o5tx2kuZznhtSXFOZo1nlrW/SPtj2', 10, '2025-05-28 15:00:00'),
-('SE12346', 'Jane Smith', 'jane.smith@example.com', '0912345679', '{"facebook": "jane.smith", "instagram": "janesmith"}', 'profile2.jpg', '$2a$12$ze8FwxJ3hgE8F.NVVi3FCuM8o5tx2kuZznhtSXFOZo1nlrW/SPtj2', 5, '2025-05-27 14:30:00'),
-('SE12347', 'Bob Johnson', 'bob.johnson@example.com', '0912345680', '{"twitter": "bobj", "linkedin": "bobjohnson"}', 'profile3.jpg', '$2a$12$ze8FwxJ3hgE8F.NVVi3FCuM8o5tx2kuZznhtSXFOZo1nlrW/SPtj2', 20, '2025-05-26 10:15:00'),
-('SE12348', 'Alice Brown', 'alice.brown@example.com', '0912345681', '{"instagram": "aliceb", "facebook": "alice.brown"}', 'profile4.jpg', '$2a$12$ze8FwxJ3hgE8F.NVVi3FCuM8o5tx2kuZznhtSXFOZo1nlrW/SPtj2', 2, '2025-05-25 09:45:00'),
-('SE12349', 'Charlie Davis', 'charlie.davis@example.com', '0912345682', '{"twitter": "charlied", "github": "charlied"}', 'profile5.jpg', '$2a$12$ze8FwxJ3hgE8F.NVVi3FCuM8o5tx2kuZznhtSXFOZo1nlrW/SPtj2', 15, '2025-05-24 16:20:00');
+INSERT INTO users (student_id, fullname, email, phone_number, profile_picture, password, merit_point, created_at) VALUES
+('SE12345', 'John Doe', 'john.doe@example.com', '0912345678', 'profile1.jpg', '$2a$12$ze8FwxJ3hgE8F.NVVi3FCuM8o5tx2kuZznhtSXFOZo1nlrW/SPtj2', 10, '2025-05-28 15:00:00'),
+('SE12346', 'Jane Smith', 'jane.smith@example.com', '0912345679', 'profile2.jpg', '$2a$12$ze8FwxJ3hgE8F.NVVi3FCuM8o5tx2kuZznhtSXFOZo1nlrW/SPtj2', 5, '2025-05-27 14:30:00'),
+('SE12347', 'Bob Johnson', 'bob.johnson@example.com', '0912345680', 'profile3.jpg', '$2a$12$ze8FwxJ3hgE8F.NVVi3FCuM8o5tx2kuZznhtSXFOZo1nlrW/SPtj2', 20, '2025-05-26 10:15:00'),
+('SE12348', 'Alice Brown', 'alice.brown@example.com', '0912345681', 'profile4.jpg', '$2a$12$ze8FwxJ3hgE8F.NVVi3FCuM8o5tx2kuZznhtSXFOZo1nlrW/SPtj2', 2, '2025-05-25 09:45:00'),
+('SE12349', 'Charlie Davis', 'charlie.davis@example.com', '0912345682', 'profile5.jpg', '$2a$12$ze8FwxJ3hgE8F.NVVi3FCuM8o5tx2kuZznhtSXFOZo1nlrW/SPtj2', 15, '2025-05-24 16:20:00');
 
 -- Sample data for admins table 
 INSERT INTO admins (name, email, password, student_id) VALUES
