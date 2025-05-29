@@ -18,7 +18,7 @@ public class UserController {
 
     @GetMapping("/{studentId}")
     public ResponseEntity<User> getUserByStudentId(@PathVariable String studentId) {
-        return userService.getUserByStudentId(s     tudentId)
+        return userService.getUserByStudentId(studentId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
