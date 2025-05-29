@@ -1,5 +1,7 @@
 package WebProject.ReRover.services.Impl;
 
+import java.util.Optional;
+
 import WebProject.ReRover.model.User;
 import WebProject.ReRover.repository.UserRepository;
 import WebProject.ReRover.services.UserService;
@@ -14,8 +16,13 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User getUserById(int id) {
-        return userRepository.findById((Integer) id).orElse(null);
+    public Optional<User> getUserByStudentId(String studentId) {
+        return userRepository.findByStudentId(studentId);
+    }   
+    
+    @Override
+    public Optional<User> getUserById(int id) {
+        return userRepository.findById(id);
     }
 
     @Override
@@ -25,6 +32,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(int id) {
-        userRepository.deleteById((Integer) id);
+        userRepository.deleteById(id);
     }
 }

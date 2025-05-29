@@ -1,7 +1,7 @@
 package WebProject.ReRover.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RestController;
 
 import WebProject.ReRover.model.User;
 import WebProject.ReRover.services.UserService;
@@ -16,9 +16,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable int id) {
-        return userService.getUserById(id);
+    @GetMapping("/{studentId}")
+    public ResponseEntity<User> getUserByStudentId(@PathVariable String studentId) {
+        return userService.getUserByStudentId(s     tudentId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
