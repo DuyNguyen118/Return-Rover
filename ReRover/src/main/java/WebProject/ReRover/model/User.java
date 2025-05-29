@@ -44,14 +44,11 @@ public class User {
     @Size(max = 100)
     @Email
     @Column(unique = true, nullable = false)
-    private String gmail;
+    private String email;
     
     @Size(max = 20)
     @Column(name = "phone_number")
     private String phoneNumber;
-    
-    @Column(columnDefinition = "JSON")
-    private String socials;
     
     @Column(name = "profile_picture", length = 255)
     private String profilePicture;
