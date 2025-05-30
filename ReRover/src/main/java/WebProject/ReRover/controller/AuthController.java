@@ -2,6 +2,7 @@ package WebProject.ReRover.controller;
 
 import WebProject.ReRover.model.User;
 import WebProject.ReRover.repository.UserRepository;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,12 +41,6 @@ public class AuthController {
             return ResponseEntity.ok(user);
         }
         return ResponseEntity.status(401).body(Collections.singletonMap("error", "Not authenticated"));
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<?> logout() {
-        // This endpoint is handled by Spring Security's logout
-        return ResponseEntity.ok(Collections.singletonMap("success", true));
     }
 
     @PostMapping("/register")
