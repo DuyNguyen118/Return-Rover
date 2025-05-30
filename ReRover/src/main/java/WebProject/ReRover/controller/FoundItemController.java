@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import WebProject.ReRover.model.FoundItem;
 import WebProject.ReRover.services.FoundItemService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/found-item")
 public class FoundItemController {
@@ -15,6 +17,11 @@ public class FoundItemController {
 
     public FoundItemController(FoundItemService foundItemService) {
         this.foundItemService = foundItemService;
+    }
+
+    @GetMapping
+    public List<FoundItem> getAllFoundItems() {
+        return foundItemService.getAllFoundItems();
     }
 
     @GetMapping("/{id}")
