@@ -8,10 +8,10 @@ import WebProject.ReRover.model.LostItem;
 import WebProject.ReRover.services.LostItemService;
 
 @RestController
-@RequestMapping("/lost-item")
+@RequestMapping("/api/lost-item")
 public class LostItemController {
     
-    private LostItemService lostItemService;
+    private final LostItemService lostItemService;
 
     public LostItemController(LostItemService lostItemService) {
         this.lostItemService = lostItemService;
