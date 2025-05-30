@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import WebProject.ReRover.model.LostItem;
 import WebProject.ReRover.services.LostItemService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/lost-item")
 public class LostItemController {
@@ -15,6 +17,11 @@ public class LostItemController {
 
     public LostItemController(LostItemService lostItemService) {
         this.lostItemService = lostItemService;
+    }
+
+    @GetMapping
+    public List<LostItem> getAllLostItems() {
+        return lostItemService.getAllLostItems();
     }
 
     @GetMapping("/{id}")
