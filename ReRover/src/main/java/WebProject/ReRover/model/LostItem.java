@@ -42,6 +42,9 @@ public class LostItem {
     @Size(max = 100)
     private String location;
     
+    @Column(name = "type", nullable = false)
+    private String type;
+    
     @Column(name = "lost_date")
     private LocalDate lostDate;
     
