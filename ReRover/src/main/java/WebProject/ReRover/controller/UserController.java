@@ -7,7 +7,7 @@ import WebProject.ReRover.model.User;
 import WebProject.ReRover.services.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
     
     private UserService userService;
