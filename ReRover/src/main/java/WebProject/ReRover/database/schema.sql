@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS lost_items (
     description TEXT,
     location VARCHAR(100),
     lost_date DATE,
+    type VARCHAR(50),
     image_url VARCHAR(255),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
@@ -50,6 +51,7 @@ CREATE TABLE IF NOT EXISTS found_items (
     description TEXT,
     location VARCHAR(100),
     found_date DATE,
+    type VARCHAR(50),
     image_url VARCHAR(255),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
