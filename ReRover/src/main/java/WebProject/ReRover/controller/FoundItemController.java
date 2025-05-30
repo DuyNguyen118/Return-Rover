@@ -8,10 +8,10 @@ import WebProject.ReRover.model.FoundItem;
 import WebProject.ReRover.services.FoundItemService;
 
 @RestController
-@RequestMapping("/found-item")
+@RequestMapping("/api/found-item")
 public class FoundItemController {
     
-    private FoundItemService foundItemService;
+    private final FoundItemService foundItemService;
 
     public FoundItemController(FoundItemService foundItemService) {
         this.foundItemService = foundItemService;
