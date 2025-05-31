@@ -3,15 +3,21 @@ package WebProject.ReRover.services.Impl;
 import WebProject.ReRover.model.FoundItem;
 import WebProject.ReRover.repository.FoundItemRepository;
 import WebProject.ReRover.services.FoundItemService;
-
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class FoundItemServiceImpl implements FoundItemService {
-    private FoundItemRepository foundItemRepository;
+    private final FoundItemRepository foundItemRepository;
 
     public FoundItemServiceImpl(FoundItemRepository foundItemRepository) {
         this.foundItemRepository = foundItemRepository;
+    }
+
+    @Override
+    public List<FoundItem> getAllFoundItems() {
+        return foundItemRepository.findAll();
     }
 
     @Override
@@ -21,11 +27,17 @@ public class FoundItemServiceImpl implements FoundItemService {
 
     @Override
     public FoundItem saveFoundItem(FoundItem foundItem) {
+        if (foundItem == null) {
+            throw new IllegalArgumentException("FoundItem cannot be null");
+        }
         return foundItemRepository.save(foundItem);
     }
 
     @Override
     public void deleteFoundItem(int id) {
+        if (!foundItemRepository.existsById((long) id)) {
+            throw new IllegalArgumentException("FoundItem with id " + id + " not found");
+        }
         foundItemRepository.deleteById((long) id);
     }
 }

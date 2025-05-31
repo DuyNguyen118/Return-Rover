@@ -5,6 +5,7 @@ import WebProject.ReRover.repository.LostItemRepository;
 import WebProject.ReRover.services.LostItemService;
 
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class LostItemServiceImpl implements LostItemService {
@@ -12,6 +13,11 @@ public class LostItemServiceImpl implements LostItemService {
 
     public LostItemServiceImpl(LostItemRepository lostItemRepository) {
         this.lostItemRepository = lostItemRepository;
+    }
+
+    @Override
+    public List<LostItem> getAllLostItems() {
+        return lostItemRepository.findAll();
     }
 
     @Override
