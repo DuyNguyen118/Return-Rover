@@ -36,6 +36,9 @@ public class FoundItem {
     @Column(nullable = false)
     private String title;
 
+    @Column(name = "category", nullable = false)
+    private String category;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
