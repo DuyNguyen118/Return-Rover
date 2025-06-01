@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class FoundItemServiceImpl implements FoundItemService {
-    private final FoundItemRepository foundItemRepository;
+    private FoundItemRepository foundItemRepository;
 
     public FoundItemServiceImpl(FoundItemRepository foundItemRepository) {
         this.foundItemRepository = foundItemRepository;
@@ -27,17 +27,11 @@ public class FoundItemServiceImpl implements FoundItemService {
 
     @Override
     public FoundItem saveFoundItem(FoundItem foundItem) {
-        if (foundItem == null) {
-            throw new IllegalArgumentException("FoundItem cannot be null");
-        }
         return foundItemRepository.save(foundItem);
     }
 
     @Override
     public void deleteFoundItem(int id) {
-        if (!foundItemRepository.existsById((long) id)) {
-            throw new IllegalArgumentException("FoundItem with id " + id + " not found");
-        }
         foundItemRepository.deleteById((long) id);
     }
 }
