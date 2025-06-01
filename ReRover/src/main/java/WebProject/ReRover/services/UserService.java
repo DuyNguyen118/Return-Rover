@@ -9,4 +9,5 @@ public interface UserService {
     public Optional<User> getUserByStudentId(String studentId);
     public User saveUser(User user);
     public void deleteUser(int id);
+    public User updateUser(int id, User user);
 }
