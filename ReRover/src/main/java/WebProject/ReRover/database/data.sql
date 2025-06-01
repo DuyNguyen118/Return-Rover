@@ -12,20 +12,20 @@ INSERT INTO admins (name, email, password, student_id) VALUES
 ('Admin Two', 'admin2@example.com', '$2a$10$N9qo8uLOickgx2ZMRZoMy.Mrq1qrM4o4qgVDtb36yoO6Ziof73NMS', 'ADM002');
 
 -- Sample data for lost_items table
-INSERT INTO lost_items (user_id, title, description, location, lost_date, type, image_url, created_at) VALUES
-(1, 'Black Wallet', 'Lost my black leather wallet with student ID and some cash', 'Building A, Room 101', '2025-05-20', 'lost', 'wallet.jpg', '2025-05-20 10:30:00'),
-(2, 'Silver Laptop Charger', 'Dell 65W charger, lost near the library', 'Library, 2nd floor', '2025-05-21', 'lost', 'charger.jpg', '2025-05-21 14:15:00'),
-(3, 'Blue Water Bottle', 'Blue Hydro Flask with stickers on it', 'Sports Complex', '2025-05-22', 'lost', 'bottle.jpg', '2025-05-22 09:45:00'),
-(4, 'Wireless Earbuds', 'White Samsung Galaxy Buds in a case', 'Cafeteria', '2025-05-23', 'lost', 'earbuds.jpg', '2025-05-23 12:30:00'),
-(5, 'Textbook: Advanced Math', 'Calculus 2 textbook with notes inside', 'Building B, Lecture Hall 3', '2025-05-24', 'lost', 'textbook.jpg', '2025-05-24 16:20:00');
+INSERT INTO lost_items (user_id, title, description, location, lost_date, image_url, created_at) VALUES
+(1, 'Black Wallet', 'Lost my black leather wallet with student ID and some cash', 'Building A, Room 101', '2025-05-20', 'wallet.jpg', '2025-05-20 10:30:00'),
+(2, 'Silver Laptop Charger', 'Dell 65W charger, lost near the library', 'Library, 2nd floor', '2025-05-21', 'charger.jpg', '2025-05-21 14:15:00'),
+(3, 'Blue Water Bottle', 'Blue Hydro Flask with stickers on it', 'Sports Complex', '2025-05-22', 'bottle.jpg', '2025-05-22 09:45:00'),
+(4, 'Wireless Earbuds', 'White Samsung Galaxy Buds in a case', 'Cafeteria', '2025-05-23', 'earbuds.jpg', '2025-05-23 12:30:00'),
+(5, 'Textbook: Advanced Math', 'Calculus 2 textbook with notes inside', 'Building B, Lecture Hall 3', '2025-05-24', 'textbook.jpg', '2025-05-24 16:20:00');
 
 -- Sample data for found_items table
-INSERT INTO found_items (user_id, title, description, location, found_date, type, image_url, created_at) VALUES
-(2, 'Black Wallet', 'Found in the cafeteria with some cash and cards', 'Cafeteria, near entrance', '2025-05-20', 'found', 'found_wallet.jpg', '2025-05-20 11:30:00'),
-(3, 'Silver Laptop Charger', 'Found plugged in the library study area', 'Library, 2nd floor', '2025-05-21', 'found', 'found_charger.jpg', '2025-05-21 15:30:00'),
-(4, 'Blue Water Bottle', 'Left in the gym locker room', 'Sports Complex', '2025-05-22', 'found', 'found_bottle.jpg', '2025-05-22 10:30:00'),
-(5, 'Wireless Earbuds', 'Found on a bench outside Building C', 'Building C entrance', '2025-05-23', 'found', 'found_earbuds.jpg', '2025-05-23 13:45:00'),
-(1, 'Math Textbook', 'Found in the study area, has notes inside', 'Library, 1st floor', '2025-05-24', 'found', 'found_textbook.jpg', '2025-05-24 17:30:00');
+INSERT INTO found_items (user_id, title, description, location, found_date, image_url, created_at) VALUES
+(2, 'Black Wallet', 'Found in the cafeteria with some cash and cards', 'Cafeteria, near entrance', '2025-05-20', 'found_wallet.jpg', '2025-05-20 11:30:00'),
+(3, 'Silver Laptop Charger', 'Found plugged in the library study area', 'Library, 2nd floor', '2025-05-21', 'found_charger.jpg', '2025-05-21 15:30:00'),
+(4, 'Blue Water Bottle', 'Left in the gym locker room', 'Sports Complex', '2025-05-22', 'found_bottle.jpg', '2025-05-22 10:30:00'),
+(5, 'Wireless Earbuds', 'Found on a bench outside Building C', 'Building C entrance', '2025-05-23', 'found_earbuds.jpg', '2025-05-23 13:45:00'),
+(1, 'Math Textbook', 'Found in the study area, has notes inside', 'Library, 1st floor', '2025-05-24', 'found_textbook.jpg', '2025-05-24 17:30:00');
 
 -- Sample data for item_matches table
 INSERT INTO item_matches (lost_item_id, found_item_id, matched_by_user, lost_item_user_confirmed, found_item_user_confirmed, admin_approved, status, match_date) VALUES
