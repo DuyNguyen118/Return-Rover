@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.*;
 
 import WebProject.ReRover.model.User;
 import WebProject.ReRover.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -28,6 +30,18 @@ public class UserController {
         return userService.saveUser(user);
     }
 
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable int id, @RequestBody User user, HttpServletRequest request) {
+    System.out.println("Received update request for user ID: " + id);
+    System.out.println("Request body: " + user.toString());
+    System.out.println("Auth header: " + request.getHeader("Authorization"));
+    
+    User updatedUser = userService.updateUser(id, user);
+    System.out.println("Updated user: " + updatedUser);
+    
+    return updatedUser;
+}
+    
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
