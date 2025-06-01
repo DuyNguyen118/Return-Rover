@@ -2,6 +2,9 @@ package WebProject.ReRover.controller;
 
 import WebProject.ReRover.model.User;
 import WebProject.ReRover.repository.UserRepository;
+import WebProject.ReRover.util.EmailSending;
+import WebProject.ReRover.util.OTPManager;
+import WebProject.ReRover.services.UserService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,10 +22,12 @@ public class AuthController {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, UserService userService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userService = userService;
     }
 
     @PostMapping("/login")
@@ -93,5 +98,67 @@ public class AuthController {
             return ResponseEntity.badRequest()
                 .body(Collections.singletonMap("error", "Registration failed: " + e.getMessage()));
         }
+    }
+
+    @PostMapping("/forgot-password")
+    @ResponseBody
+    public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        if (email == null || email.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Email is required");
+        }
+        
+        // Check if email exists in database
+        User user = userRepository.findByEmail(email).orElse(null);
+        if (user == null) {
+            // For security reasons, return success even if email doesn't exist
+            return ResponseEntity.ok("If your email is registered, you will receive a password reset code");
+        }
+
+        // Generate OTP
+        String otp = OTPManager.generateOTP(email);
+        
+        // Send email with OTP
+        String subject = "Password Reset - Verification Code";
+        String message = "Your password reset code is: " + otp + "\n\n" +
+                        "This code will expire in 5 minutes.\n\n" +
+                        "If you didn't request this, please ignore this email.";
+
+        try {
+            EmailSending.sendSimpleEmail(email, subject, message);
+            return ResponseEntity.ok("Verification code sent to your email");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to send verification code. Please try again.");
+        }
+    }
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<?> verifyOtp(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        String code = request.get("code");
+        
+        if (OTPManager.verifyOTP(email, code)) {
+            // OTP is valid, generate a token or return success
+            return ResponseEntity.ok("OTP verified successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Invalid or expired verification code");
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        String newPassword = request.get("newPassword");
+        
+        // Update the password in the database
+        User user = userRepository.findByEmail(email).orElse(null);
+        if (user == null) {
+            return ResponseEntity.badRequest().body("Invalid email address");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+userService.saveUser(user);
+        
+        return ResponseEntity.ok("Password has been reset successfully");
     }
 }
