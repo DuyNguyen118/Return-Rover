@@ -42,9 +42,6 @@ public class FoundItem {
     @Size(max = 100)
     private String location;
 
-    @Column(name = "type", nullable = false)
-    private String type;
-
     @Column(name = "found_date")
     private LocalDate foundDate;
 
@@ -57,6 +54,11 @@ public class FoundItem {
     @OneToMany(mappedBy = "foundItem")
     @JsonIgnore
     private List<ItemMatch> itemMatches;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 
     // Helper methods for bidirectional relationship
     public void setUser(User user) {

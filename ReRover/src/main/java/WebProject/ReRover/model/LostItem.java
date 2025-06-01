@@ -42,9 +42,6 @@ public class LostItem {
     @Size(max = 100)
     private String location;
     
-    @Column(name = "type", nullable = false)
-    private String type;
-    
     @Column(name = "lost_date")
     private LocalDate lostDate;
     
@@ -57,4 +54,17 @@ public class LostItem {
     @OneToMany(mappedBy = "lostItem")
     @JsonIgnore
     private List<ItemMatch> itemMatches;
+    
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    // Helper methods for bidirectional relationship
+    public void setUser(User user) {
+        this.user = user;
+        if (user != null && !user.getLostItems().contains(this)) {
+            user.getLostItems().add(this);
+        }
+    }
 }
