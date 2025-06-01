@@ -21,46 +21,58 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .cors().configurationSource(corsConfigurationSource()).and()
-            .csrf().disable()
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/api/auth/**",
-                    "/v3/api-docs/**",
-                    "/swagger-ui/**",
-                    "/swagger-ui.html",
-                    "/api/found-item/**",
-                    "/api/lost-item/**"
-                ).permitAll()
-                .anyRequest().authenticated()
-            )
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .sessionFixation().migrateSession()
-            )
-            .formLogin(form -> form
-                .loginProcessingUrl("/api/auth/login")
-                .successHandler((request, response, authentication) -> {
-                    response.setStatus(200);
-                    response.setContentType("application/json");
-                    response.getWriter().write("{\"success\":true}");
-                })
-                .failureHandler((request, response, exception) -> {
-                    response.setStatus(401);
-                    response.setContentType("application/json");
-                    response.getWriter().write("{\"error\":\"Authentication failed: " + exception.getMessage() + "\"}");
-                })
-            )
-            .logout(logout -> logout
-                .logoutUrl("/api/auth/logout")
-                .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-            );
+    http
+        .cors().configurationSource(corsConfigurationSource()).and()
+        .csrf().disable()
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(
+                "/api/auth/register",
+                "/api/auth/forgot-password",
+                "/api/auth/verify-otp",
+                "/api/auth/reset-password",
+                "/v3/api-docs/**",
+                "/swagger-ui/**",
+                "/swagger-ui.html",
+                "/api/found-item/**",
+                "/api/lost-item/**"
+            ).permitAll()
+            .anyRequest().authenticated()
+        )
+        .sessionManagement(session -> session
+            .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+            .sessionFixation().migrateSession()
+        )
+        .formLogin(form -> form
+            .loginProcessingUrl("/api/auth/login")
+            .successHandler((request, response, authentication) -> {
+                response.setStatus(200);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"success\":true}");
+            })
+            .failureHandler((request, response, exception) -> {
+                response.setStatus(401);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\":\"Authentication failed: " + exception.getMessage() + "\"}");
+            })
+            .permitAll()
+        )
+        .logout(logout -> logout
+            .logoutUrl("/api/auth/logout")
+            .deleteCookies("JSESSIONID")
+            .invalidateHttpSession(true)
+            .clearAuthentication(true)
+            .permitAll()
+        )
+        .exceptionHandling(exception -> exception
+            .authenticationEntryPoint((request, response, authException) -> {
+                response.setStatus(401);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\":\"Unauthorized: " + authException.getMessage() + "\"}");
+            })
+        );
 
-        return http.build();
-    }
+    return http.build();
+}
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
