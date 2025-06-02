@@ -34,7 +34,8 @@ public class SecurityConfig {
                 "/swagger-ui/**",
                 "/swagger-ui.html",
                 "/api/found-item/**",
-                "/api/lost-item/**"
+                "/api/lost-item/**",
+                "/api/lost-item/files/**"  // Add this line for file downloads
             ).permitAll()
             .anyRequest().authenticated()
         )
