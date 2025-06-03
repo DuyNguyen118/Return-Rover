@@ -21,6 +21,11 @@ public class LostItemServiceImpl implements LostItemService {
     }
 
     @Override
+    public List<LostItem> getLostItemsByUserId(int userId) {
+        return lostItemRepository.findByUser_Id((long) userId);
+    }
+
+    @Override
     public LostItem getLostItemById(int id) {
         return lostItemRepository.findById((long) id).orElse(null);
     }
