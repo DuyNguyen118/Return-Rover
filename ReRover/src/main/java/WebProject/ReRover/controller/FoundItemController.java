@@ -38,6 +38,11 @@ public class FoundItemController {
         return foundItemService.getAllFoundItems();
     }
 
+    @GetMapping("/user/{userId}")
+    public List<FoundItem> getFoundItemsByUserId(@PathVariable int userId) {
+        return foundItemService.getFoundItemsByUserId(userId);
+    }
+
     @GetMapping("/{id}")
     public FoundItem getFoundItemById(@PathVariable int id) {
         return foundItemService.getFoundItemById(id);

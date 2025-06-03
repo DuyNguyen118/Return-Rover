@@ -38,6 +38,11 @@ public class LostItemController {
         return lostItemService.getAllLostItems();
     }
 
+    @GetMapping("/user/{userId}")
+    public List<LostItem> getLostItemsByUserId(@PathVariable int userId) {
+        return lostItemService.getLostItemsByUserId(userId);
+    }
+
     @GetMapping("/{id}")
     public LostItem getLostItemById(@PathVariable int id) {
         return lostItemService.getLostItemById(id);
