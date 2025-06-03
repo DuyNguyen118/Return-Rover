@@ -21,6 +21,11 @@ public class FoundItemServiceImpl implements FoundItemService {
     }
 
     @Override
+    public List<FoundItem> getFoundItemsByUserId(int userId) {
+        return foundItemRepository.findByUserId((long) userId);
+    }
+
+    @Override
     public FoundItem getFoundItemById(int id) {
         return foundItemRepository.findById((long) id).orElse(null);
     }
