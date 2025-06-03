@@ -42,6 +42,9 @@ public class FoundItem {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "type", nullable = false)
+    private String type;
+
     @Size(max = 100)
     private String location;
 

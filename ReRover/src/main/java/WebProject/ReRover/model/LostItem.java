@@ -39,6 +39,9 @@ public class LostItem {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "type", nullable = false)
+    private String type;
+    
     @Column(name = "category", nullable = false)
     private String category;
     
