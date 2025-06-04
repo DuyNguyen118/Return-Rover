@@ -17,7 +17,7 @@ INSERT INTO lost_items (user_id, title, description, category, type, location, l
 (2, 'Silver Laptop Charger', 'Dell 65W charger, lost near the library', 'Electronics', 'lost', 'Library 2nd floor', '2025-05-21', 'charger.jpg', '2025-05-21 14:15:00'),
 (3, 'Blue Water Bottle', 'Blue Hydro Flask with stickers on it', 'Other', 'lost', 'Canteen', '2025-05-22', 'bottle.jpg', '2025-05-22 09:45:00'),
 (4, 'Wireless Earbuds', 'White Samsung Galaxy Buds in a case', 'Electronics', 'lost', 'A1.208', '2025-05-23', 'earbuds.jpg', '2025-05-23 12:30:00'),
-(5, 'Textbook: Advanced Math', 'Calculus 2 textbook with notes inside', 'Documents', 'lost', 'A2.104', '2025-05-24', 'textbook.jpg', '2025-05-24 16:20:00');
+(5, 'Textbook: Advanced Math', 'Calculus 2 textbook with notes inside', 'Documents', 'lost', 'A2.104', '2025-05-24', 'book.jpg', '2025-05-24 16:20:00');
 
 -- Sample data for found_items table
 INSERT INTO found_items (user_id, title, description, category, type, location, found_date, image_url, created_at) VALUES
@@ -25,7 +25,7 @@ INSERT INTO found_items (user_id, title, description, category, type, location, 
 (3, 'Silver Laptop Charger', 'Found plugged in the library study area', 'Electronics', 'found', 'Library 2nd floor', '2025-05-21', 'found_charger.jpg', '2025-05-21 15:30:00'),
 (4, 'Blue Water Bottle', 'Left in the gym locker room', 'Other', 'found', 'Canteen', '2025-05-22', 'found_bottle.jpg', '2025-05-22 10:30:00'),
 (5, 'Wireless Earbuds', 'Found on a bench outside Building C', 'Electronics', 'found', 'A1.612', '2025-05-23', 'found_earbuds.jpg', '2025-05-23 13:45:00'),
-(1, 'Math Textbook', 'Found in the study area, has notes inside', 'Documents', 'found', 'A2.104', '2025-05-24', 'found_textbook.jpg', '2025-05-24 17:30:00');
+(1, 'Math Textbook', 'Found in the study area, has notes inside', 'Documents', 'found', 'A2.104', '2025-05-24', 'found_book.jpg', '2025-05-24 17:30:00');
 
 -- Sample data for item_matches table
 INSERT INTO item_matches (lost_item_id, found_item_id, matched_by_user, lost_item_user_confirmed, found_item_user_confirmed, admin_approved, status, match_date) VALUES
