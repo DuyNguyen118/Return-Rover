@@ -1,0 +1,30 @@
+package WebProject.ReRover.dto;
+
+import WebProject.ReRover.model.LostItem;
+import WebProject.ReRover.model.FoundItem;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+public class ItemMatchDTO {
+    private Integer id;
+    private LostItem lostItem;
+    private FoundItem foundItem;
+    private double matchScore;
+    private String status;
+    private LocalDateTime matchedAt;
+    private LocalDateTime updatedAt;
+
+    public static ItemMatchDTO fromEntity(ItemMatch itemMatch) {
+        ItemMatchDTO dto = new ItemMatchDTO();
+        dto.setId(itemMatch.getId());
+        dto.setLostItem(itemMatch.getLostItem());
+        dto.setFoundItem(itemMatch.getFoundItem());
+        dto.setMatchScore(itemMatch.getMatchScore());
+        dto.setStatus(itemMatch.getStatus());
+        dto.setMatchedAt(itemMatch.getMatchedAt());
+        dto.setUpdatedAt(itemMatch.getUpdatedAt());
+        return dto;
+    }
+}
