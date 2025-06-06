@@ -12,4 +12,5 @@ public interface ItemMatchService {
     void deleteItemMatch(int id);
     List<LostItem> getLostItemsByUserId(int userId);
     List<FoundItem> getFoundItemsByUserId(int userId);
+    List<ItemMatch> getMatchesForUser(int userId);
 }
