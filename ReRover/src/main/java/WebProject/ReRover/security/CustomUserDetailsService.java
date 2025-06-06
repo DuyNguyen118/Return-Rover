@@ -2,12 +2,12 @@ package WebProject.ReRover.security;
 
 import WebProject.ReRover.model.User;
 import WebProject.ReRover.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
@@ -33,14 +33,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         log.info("User found: {}", user.getStudentId());
         log.debug("User details - ID: {}, Email: {}", user.getId(), user.getEmail());
 
-        return org.springframework.security.core.userdetails.User
-            .withUsername(user.getStudentId())
-            .password(user.getPassword())  // Removed {bcrypt} prefix
-            .authorities(new java.util.ArrayList<>())
-            .accountExpired(false)
-            .accountLocked(false)
-            .credentialsExpired(false)
-            .disabled(false)
-            .build();
+        return UserDetailsImpl.build(user);
     }
 }
