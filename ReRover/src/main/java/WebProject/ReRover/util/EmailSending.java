@@ -17,7 +17,7 @@ public class EmailSending {
     private static final String SMTP_HOST = "smtp.gmail.com";  // For Gmail SMTP server
     private static final String SMTP_PORT = "587"; // SMTP port for Gmail
     private static final String USERNAME = "baoduy.song@gmail.com"; // Hotel email address
-    private static final String PASSWORD = ""; // Your app-specific password for Gmail
+    private static final String PASSWORD = "vyxz jvwf qddf dkzg"; // Your app-specific password for Gmail
 
     /**
      * Sends an email using Gmail's SMTP server

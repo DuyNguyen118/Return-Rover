@@ -55,6 +55,7 @@ public class User {
     
     @Column(name = "merit_point")
     private Integer meritPoint = 0;
+
     
     @Column(name = "created_at", updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;

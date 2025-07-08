@@ -1,8 +1,6 @@
 package WebProject.ReRover.repository;
 
 import java.util.List;
-import java.util.Set;
-
 import WebProject.ReRover.model.FoundItem;
 import WebProject.ReRover.model.ItemMatch;
 import WebProject.ReRover.model.LostItem;
